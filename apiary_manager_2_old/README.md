@@ -1,6 +1,6 @@
 # apiary_manager_2
 
-A new Flutter project.
+Apiary manager.
 
 ## Getting Started
 
