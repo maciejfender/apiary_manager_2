@@ -1,0 +1,12 @@
+{
+    "appTitle": "Apiary Manager 2",
+    "@appTitle":{
+        "description":"Description of Apiary Manager"
+        },
+    "helloWorld": "Hello World!",
+    "@helloWorld":{
+        "description":"Description of Hello Worlds"
+    }
+
+   
+}
