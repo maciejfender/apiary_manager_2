@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'mainScreen.dart';
-import 'components/navigationDrawer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,8 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: const HomeScreen( ),
+      home: const HomeScreen(),
     );
   }
 }
-

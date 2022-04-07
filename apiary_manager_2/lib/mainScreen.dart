@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'components/navigationDrawer.dart';
 
@@ -12,20 +11,39 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _subScreenState = 0;
+
+  final List<Widget> _screens = <Widget>[];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _subScreenState = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _screens.add(
+      renderBody(),
+    );
+    
+    _screens.add(
+      const Text("123"),
+    );
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Apiary Manager 2'),
+        title: const Text('Apiary Manager 2'),
       ),
       body: Center(
-        child: renderBody(context),
+        child: _screens.elementAt(_subScreenState),
       ),
       drawer: NavigationDrawer(),
+      bottomNavigationBar: renderBottomNavigationBar(context),
     );
   }
 
-  Widget renderBody(BuildContext context) {
+  Widget renderBody() {
     return ListView.builder(
       itemBuilder: (context, position) {
         return ApiaryFragment(context, position);
@@ -35,18 +53,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget ApiaryFragment(BuildContext context, int position) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
       child: Card(
-        child: InkWell(
-          splashColor: Colors.orange[30],
-          child: ListTile(
-            leading: Icon(Icons.all_inbox),
-            title: Text('The Enchanted Nightingale'),
-            subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-          ),
+        child: ListTile(
+          leading: Icon(Icons.all_inbox),
+          title: Text('The Enchanted Nightingale'),
+          subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
         ),
       ),
+    );
+  }
+
+  Widget renderBottomNavigationBar(BuildContext context) {
+    return BottomNavigationBar(
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.crop_square_outlined,
+          ),
+          label: "Structure",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.pan_tool_outlined,
+          ),
+          label: "Equipment",
+        ),
+      ],
+      onTap: _onItemTapped,
+      currentIndex: _subScreenState,
+      selectedItemColor: Colors.amber,
     );
   }
 }
