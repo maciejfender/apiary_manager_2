@@ -1,10 +1,10 @@
-import 'package:apiary_manager_2/apiariesScreen.dart';
+import 'package:apiary_manager_2/screens/apiariesScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../mainScreen.dart';
-import '../settingsScreen.dart';
-import '../tasksScreen.dart';
+import '../screens/mainScreen.dart';
+import '../screens/settingsScreen.dart';
+import '../screens/tasksScreen.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
