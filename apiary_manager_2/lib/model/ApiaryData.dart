@@ -1,24 +1,55 @@
 import 'dart:convert';
-import 'dart:developer';
 
-import 'package:flutter/material.dart';
+List<Apiary> apiaryFromJson(String str) =>
+    List<Apiary>.from(json.decode(str).map((x) => Apiary.fromJson(x)));
 
-class ApiaryData {
-  ApiaryData({
+String apiaryToJson(List<Apiary> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class Apiary {
+  Apiary({
+    required this.id,
     required this.name,
-    required this.creation,
+    required this.dateOfCreation,
+    required this.dateOfModification,
+    required this.description,
+    required this.location,
+    required this.humidity,
+    required this.sunExposure,
+    required this.deleted,
   });
 
-  // static ApiaryData parseFromJson(String json){
-  //   final dynamic jsonDecoded = jsonDecode(json);
-  //   if(jsonDecoded is Map){
-  //     log("message");
-  //   }
-  //   else
-  //   final ApiaryData apiaryData = ApiaryData(name: jsonDecoded['string'], creation: jsonDecoded["creation"]);
-  //   return apiaryData;
-  // }
-  
+  int id;
   String name;
-  DateTime creation;
+  DateTime dateOfCreation;
+  DateTime dateOfModification;
+  String description;
+  String location;
+  int humidity;
+  int sunExposure;
+  bool deleted;
+
+  factory Apiary.fromJson(Map<String, dynamic> json) => Apiary(
+        id: json["id"],
+        name: json["name"],
+        dateOfCreation: DateTime.parse(json["date_of_creation"]),
+        dateOfModification: DateTime.parse(json["date_of_modification"]),
+        description: json["description"],
+        location: json["location"],
+        humidity: json["humidity"],
+        sunExposure: json["sun_exposure"],
+        deleted: json["deleted"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "date_of_creation": dateOfCreation.toIso8601String(),
+        "date_of_modification": dateOfModification.toIso8601String(),
+        "description": description,
+        "location": location,
+        "humidity": humidity,
+        "sun_exposure": sunExposure,
+        "deleted": deleted,
+      };
 }
