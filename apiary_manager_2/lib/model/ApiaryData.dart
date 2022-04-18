@@ -1,10 +1,15 @@
 import 'dart:convert';
 
-List<Apiary> apiaryFromJson(String str) =>
+List<Apiary> apiariesFromJson(String str) =>
     List<Apiary>.from(json.decode(str).map((x) => Apiary.fromJson(x)));
 
-String apiaryToJson(List<Apiary> data) =>
+String apiariesToJson(List<Apiary> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+
+Apiary apiaryFromJson(String str) => Apiary.fromJson(json.decode(str));
+
+String apiaryToJson(Apiary data) => json.encode(data.toJson());
 
 class Apiary {
   Apiary({
@@ -52,4 +57,12 @@ class Apiary {
         "sun_exposure": sunExposure,
         "deleted": deleted,
       };
+
+  String getShortDesc() {
+    if (description.length > 40) {
+      return description.substring(0, 40)+"...";
+    } else {
+      return description;
+    }
+  }
 }
