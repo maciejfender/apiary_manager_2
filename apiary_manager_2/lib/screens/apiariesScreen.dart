@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../components/navigationDrawer.dart';
 import '../webApi/apiaryWebService.dart';
+import 'createApiaryScreen.dart';
 
 class ApiariesScreen extends StatefulWidget {
   const ApiariesScreen({Key? key}) : super(key: key);
@@ -18,6 +19,8 @@ class _ApiariesScreenState extends State<ApiariesScreen> {
   int _subScreenState = 0;
 
   int currentPage = 1;
+
+  String title = 'Apiary Manager 2';
 
   List<Apiary> apiaryList = [];
 
@@ -50,13 +53,17 @@ class _ApiariesScreenState extends State<ApiariesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Apiary Manager 2'),
+        title: Text(title),
       ),
       body: Center(
         child: _screens.elementAt(_subScreenState),
       ),
       drawer: NavigationDrawer(),
       bottomNavigationBar: renderBottomNavigationBar(context),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: lunchAddApiaryScreen,
+      ),
     );
   }
 
@@ -120,6 +127,15 @@ class _ApiariesScreenState extends State<ApiariesScreen> {
       onTap: _onItemTapped,
       currentIndex: _subScreenState,
       selectedItemColor: Colors.amber,
+    );
+  }
+
+  void lunchAddApiaryScreen(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>CreateApiaryScreen(),
+      ),
     );
   }
 }
