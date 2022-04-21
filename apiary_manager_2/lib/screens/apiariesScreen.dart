@@ -60,42 +60,45 @@ class _ApiariesScreenState extends State<ApiariesScreen> {
       ),
       drawer: NavigationDrawer(),
       bottomNavigationBar: renderBottomNavigationBar(context),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: lunchAddApiaryScreen,
-      ),
+
     );
   }
 
   Widget renderBodyListStructure() {
-    return FutureBuilder(
-      future: getApiaryList(),
-      builder: ((context, snapshot) {
-        if ((snapshot.data == null ||
-            snapshot.connectionState == ConnectionState.waiting)) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-        apiaryList = snapshot.data as List<Apiary>;
-        return ListView.builder(
-          itemBuilder: (context, position) {
-            // if (apiaryList.isNotEmpty && position < apiaryList.length) {
-            final item = apiaryList[position];
-            return Card(
-              child: ListTile(
-                title: Text(item.name),
-                subtitle: Text(item.getShortDesc()),
-                onTap: (){listTileOnTap(item.id);},
+    return Scaffold(
+      body: FutureBuilder(
+        future: getApiaryList(),
+        builder: ((context, snapshot) {
+          if ((snapshot.data == null ||
+              snapshot.connectionState == ConnectionState.waiting)) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
             );
-          },
-          itemCount: apiaryList.length,
-        );
-      }),
+          }
+          apiaryList = snapshot.data as List<Apiary>;
+          return ListView.builder(
+            itemBuilder: (context, position) {
+              // if (apiaryList.isNotEmpty && position < apiaryList.length) {
+              final item = apiaryList[position];
+              return Card(
+                child: ListTile(
+                  title: Text(item.name),
+                  subtitle: Text(item.getShortDesc()),
+                  onTap: (){listTileOnTap(item.id);},
+                ),
+              );
+            },
+            itemCount: apiaryList.length,
+          );
+        }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: lunchAddApiaryScreen,
+      ),
     );
   }
 
