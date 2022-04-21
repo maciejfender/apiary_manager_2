@@ -1,4 +1,5 @@
 import 'package:apiary_manager_2/model/ApiaryData.dart';
+import 'package:apiary_manager_2/screens/apiariesEditScreen.dart';
 import 'package:apiary_manager_2/webApi/apiaryWebService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,95 +25,124 @@ class _ApiaryDetailsScreenState extends State<ApiaryDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.info_outlined)),
+              Tab(icon: Icon(Icons.bookmarks_outlined)),
+            ],
+          ),
+          actions: <Widget>[
+            // IconButton(
+            //   icon: Icon(
+            //     Icons.delete,
+            //     color: Colors.red,
+            //   ),
+            //   onPressed: () {},
+            // ),
+            IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ApiariesEditScreen(apiaryId)));
+              },
+            ),
+          ],
         ),
+        body: TabBarView(children: [
+          renderBodyDetails(),
+          Text("TODO HIVES"),
+        ]),
+        drawer: NavigationDrawer(),
       ),
-      body: FutureBuilder(
-        future: getApiaryDetails(apiaryId),
-        builder: ((context, snapshot) {
-          if (snapshot.data == null) {
-            return const Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            );
-          } else {
-            Apiary apiary = snapshot.data as Apiary;
-
-            return Container(
-              // color: Colors.blue,
-              alignment: Alignment.topLeft,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Container(
-                  // color: Colors.red,
-                  alignment: Alignment.topLeft,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                  child: Column(
-                    children: [
-                      Card(
-                        child: Column(
-                          children: [
-                            getRow("name", apiary.name),
-                            getRow("sun", "${apiary.sunExposure}"),
-                            getRow("humidity", "${apiary.humidity}"),
-                            getRow("description", apiary.description),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }
-        }),
-      ),
-      drawer: NavigationDrawer(),
     );
   }
 
-  Widget getRow(String label, String value) {
-    return Row(
+  Widget renderBodyDetails() {
+    return FutureBuilder(
+      future: getApiaryDetails(apiaryId),
+      builder: ((context, snapshot) {
+        if (snapshot.data == null) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        } else {
+          Apiary apiary = snapshot.data as Apiary;
+
+          return Container(
+            // color: Colors.blue,
+            alignment: Alignment.topLeft,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                // color: Colors.red,
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                child: Column(
+                  children: [
+                    getOneFieldWithLabel(
+                        "Name", (snapshot.data as Apiary).name),
+                    getOneFieldWithLabel(
+                        "Location", (snapshot.data as Apiary).location),
+                    getOneFieldWithLabel("Number of hives", "NONE"),
+                    getOneFieldWithLabel("Sun exposure",
+                        "${(snapshot.data as Apiary).sunExposure}"),
+                    getOneFieldWithLabel(
+                        "Humidity", "${(snapshot.data as Apiary).humidity}"),
+                    getOneFieldWithLabel(
+                        "Description", (snapshot.data as Apiary).description),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+      }),
+    );
+  }
+
+  Widget getOneFieldWithLabel(String label, String value) {
+    return Column(
       children: [
         Container(
           alignment: Alignment.center,
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Text(
             label,
             style: TextStyle(fontSize: 20),
           ),
-          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         ),
-        Expanded(
-          // child: Container(
-          //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-          // width: double.infinity,
-          // alignment: Alignment.center,
-          // decoration: const BoxDecoration(
-          //   color: Colors.orangeAccent,
-          //   shape: BoxShape.rectangle,
-          //   borderRadius:
-          //       BorderRadius.all(Radius.circular(20)),
-          // ),
-          child: Text(
-            value,
-            // maxLines: 1,
-            style: TextStyle(
-              fontSize: 16,
+        Card(
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Text(
+              value,
+              // maxLines: 1,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+              overflow: TextOverflow.visible,
             ),
-            overflow: TextOverflow.visible,
           ),
-          // ),
         ),
       ],
     );
