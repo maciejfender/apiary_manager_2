@@ -1,3 +1,4 @@
+import 'package:apiary_manager_2/model/HiveData.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/ApiaryData.dart';
@@ -30,6 +31,20 @@ Future<Apiary?> getApiaryDetails(int apiaryId) async {
   );
   if (response.statusCode == 200) {
     return apiaryFromJson(response.body);
+  } else {
+    requestFailed(response);
+  }
+  return null;
+}
+
+Future<List<Hive>?> getHiveList(int apiaryId) async {
+  var url = Uri.parse('$host/api/hive/hivesOfApiary/$apiaryId?format=json');
+  var response = await http.get(
+    url,
+    headers: basicHeaders,
+  );
+  if (response.statusCode == 200) {
+    return hivesFromJson(response.body);
   } else {
     requestFailed(response);
   }

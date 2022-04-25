@@ -2,6 +2,7 @@ import 'package:apiary_manager_2/screens/apiariesScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/creditsScreen.dart';
 import '../screens/mainScreen.dart';
 import '../screens/settingsScreen.dart';
 import '../screens/tasksScreen.dart';
@@ -82,7 +83,7 @@ class NavigationDrawer extends StatelessWidget {
               );
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.settings_outlined),
             title: const Text("Settings"),
@@ -95,6 +96,7 @@ class NavigationDrawer extends StatelessWidget {
               );
             },
           ),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.account_circle_outlined),
             title: const Text("Credits"),
@@ -102,7 +104,7 @@ class NavigationDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SettingsScreen(),
+                  builder: (context) => CreditsScreen(),
                 ),
               );
             },

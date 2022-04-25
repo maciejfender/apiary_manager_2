@@ -14,6 +14,7 @@ dependencies:
   intl: ^0.17.0
   cupertino_icons: ^1.0.2
   http: ^0.13.4
+  fluttertoast: ^8.0.9
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -21,3 +22,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: lib/fonts/Lato/Lato-Regular.ttf
+        - asset: lib/fonts/Lato/Lato-Italic.ttf
+          style: italic
+        - asset: lib/fonts/Lato/Lato-Bold.ttf
+          weight: 700
