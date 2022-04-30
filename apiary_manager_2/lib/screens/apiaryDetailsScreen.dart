@@ -1,11 +1,13 @@
 import 'package:apiary_manager_2/model/ApiaryData.dart';
 import 'package:apiary_manager_2/screens/apiariesEditScreen.dart';
+import 'package:apiary_manager_2/screens/createApiaryScreen.dart';
 import 'package:apiary_manager_2/webApi/apiaryWebService.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../components/navigationDrawer.dart';
 import '../model/HiveData.dart';
+import 'createHiveScreen.dart';
 
 class ApiaryDetailsScreen extends StatefulWidget {
   int apiaryId;
@@ -208,64 +210,86 @@ class _ApiaryDetailsScreenState extends State<ApiaryDetailsScreen> {
           );
         } else {
           List<Hive> hives = (snapshot.data as List<Hive>);
+          Widget body;
           if (hives.isEmpty) {
-            return const Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                child: Center(
-                  child: Text(
-                    "The apiary does not have any hives!",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            );
+            body = getNoHivesPage();
+          } else {
+            body = getListOfHives(hives);
           }
           return Scaffold(
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add),
               onPressed: () {
-                Fluttertoast.showToast(
-                    msg: "Floating Action Button Was Pressed");
+                // Fluttertoast.showToast(
+                //     msg: "Floating Action Button Was Pressed $apiaryId");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateHiveScreen(),
+                  ),
+                );
               },
             ),
-            body: ListView.builder(
-                itemCount: hives.length,
-                itemBuilder: (context, id) {
-                  Hive hive = hives[id];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                hive.name,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10,0,0,0),
-                              child: Text(hive.description,overflow: TextOverflow.ellipsis,maxLines: 2,),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+            body: body,
           );
         }
+      },
+    );
+  }
+
+  Widget getNoHivesPage() {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+        child: Center(
+          child: Text(
+            "The apiary does not have any hives!",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getListOfHives(List<Hive> hives) {
+    return ListView.builder(
+      itemCount: hives.length,
+      itemBuilder: (context, id) {
+        Hive hive = hives[id];
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      hive.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: Text(
+                      hive.description,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
       },
     );
   }

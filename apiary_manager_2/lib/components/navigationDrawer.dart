@@ -28,9 +28,6 @@ class NavigationDrawer extends StatelessWidget {
   Widget buildHeader(BuildContext context) => DrawerHeader(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
-        // decoration: BoxDecoration(
-        //   color: Colors.orange,
-        // ),
         child: Stack(
           children: const <Widget>[
             Positioned(
@@ -39,7 +36,6 @@ class NavigationDrawer extends StatelessWidget {
               child: Text(
                 "Apiary Manager",
                 style: TextStyle(
-                  // color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -109,7 +105,6 @@ class NavigationDrawer extends StatelessWidget {
               );
             },
           ),
-
         ],
       );
 //pushReplacement
